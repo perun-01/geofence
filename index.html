@@ -1,0 +1,84 @@
+<html>
+    <body style="margin: 0">
+        <div id="map" style="width: 100vw; height: 100vh"></div>
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://stuk.github.io/jszip/dist/jszip.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+			     const platform = new H.service.Platform({
+						  		"app_id": "WJkANOzK3LR83g7wJgDA",
+						  		"app_code": "djPkgjORDw3NNF4feP3Ldf7Kq3RyE5vEaTVV58ucURU"
+						  });
+			     const map = new H.Map(
+			     		document.getElementById("map"),
+			     		platform.createDefaultLayers().normal.map,
+			     		{
+			     			zoom: 8,
+            				center: { lat: 29.39, lng: 76.89 }
+			     		}
+			     	);
+			    const mapEvent = new H.mapevents.MapEvents(map);
+    			const mapBehavior = new H.mapevents.Behavior(mapEvent);
+    			const lineString = new H.geo.LineString();
+    			lineString.pushPoint({ lat: 29.39, lng: 76.89 });
+    			lineString.pushPoint({ lat: 28.6,  lng: 77.45 });
+    			lineString.pushPoint({ lat: 29.09, lng: 75.96 });
+    			lineString.pushPoint({ lat: 29.39, lng: 76.89 });
+    			const polygon = new H.map.Polygon(lineString);
+    			map.addObject(polygon);
+    			const geometry =polygon.getGeometry();
+    			const wkt =geometry.toString();
+    			console.log(wkt);
+    			// const zip = new JSZip();
+    			// zip.file("data.wkt", "NAME\tWKT\n" + "testfence" + "\t" + wkt);
+    			// zip.generateAsync({ type: "blob" }).then(content => {
+    			// 	var formData = new FormData();
+    			// 	formData.append("zipfile", content);
+    			// 	axios.post("https://gfe.api.here.com/2/layers/upload.json", formData, {
+    			// 		headers : {
+    			// 			"content-type": "multipart/form-data"
+    			// 		},
+    			// 		params : {
+    			// 			"app_id" : "WJkANOzK3LR83g7wJgDA"
+    			// 			"app_code" : "djPkgjORDw3NNF4feP3Ldf7Kq3RyE5vEaTVV58ucURU"
+    			// 			"layer_id" : "3456"
+    			// 		}
+    			// 	}).then( result => {
+    			// 		console.log(result);
+    			// 	}, error => {
+    			// 		console.error(error);
+    			// 	});
+    			// }, error => {
+    			// 	console.error(error);
+    			// });
+    			// var marker = new H.map.Marker({ lat :29.39, lng : 76.89 });
+    			// var geofencing = platform.getGeofencingService();
+    			// map.addObject(marker):
+    			// map.addEventListener("tap", ev => {
+    			// 	var target = ev.target;
+    			// 	map.removeObject(marker);
+    			// 	marker = new H.map.Marker(map, screenToGeo(ev.currentPointer.viewportX, ev.currentPointer.viewportY));
+    			// 	map.addObject(marker);
+    			// 	geofencing.request(
+    			// 		H.service.extension.geofencing.Service.EntryPoint.SEARCH_PROXIMITY,
+    			// 		{
+    			// 			"layer_ids": ["3456"],
+    			// 			"proximity": marker.getPosition().lat + "," + marker.getPosition().lng,
+    			// 			"key_attributes": ["NAME"]
+    			// 		},
+    			// 		result => {
+    			// 			if(result.geometries.length > 0) {
+    			// 				alert("within the geofence!");
+    			// 				console.log(result);
+    			// 			}
+    			// 		},
+    			// 		error =>{
+    			// 			console.error(error);
+    			// 		}
+    			// 		);
+    			// });
+        </script>
+    </body>
+</html>
